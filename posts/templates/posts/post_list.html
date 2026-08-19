@@ -1,0 +1,135 @@
+{% extends 'posts/base.html' %}
+
+{% block title %}Board View{% endblock %}
+
+{% block content %}
+<style>
+    .page-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .page-title h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .card {
+        border-radius: 8px;
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 200px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Classic Sticky Note Colors */
+    .card:nth-child(5n+1) { background-color: #fef08a; color: #713f12; } /* Classic Yellow */
+    .card:nth-child(5n+2) { background-color: #bae6fd; color: #0c4a6e; } /* Soft Blue */
+    .card:nth-child(5n+3) { background-color: #bbf7d0; color: #14532d; } /* Mint Green */
+    .card:nth-child(5n+4) { background-color: #fbcfe8; color: #701a75; } /* Soft Pink */
+    .card:nth-child(5n+5) { background-color: #fed7aa; color: #7c2d12; } /* Warm Orange */
+
+    .card-header {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-body {
+        font-size: 0.9rem;
+        white-space: pre-line;
+        margin-bottom: 1.25rem;
+        flex-grow: 1;
+        opacity: 0.9;
+        line-height: 1.45;
+    }
+
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        padding-top: 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .author-tag {
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .actions a {
+        text-decoration: none;
+        color: inherit;
+        opacity: 0.75;
+        margin-left: 0.75rem;
+        font-weight: 600;
+    }
+
+    .actions a:hover {
+        opacity: 1;
+        text-decoration: underline;
+    }
+
+    .actions a.delete:hover {
+        color: #dc2626;
+    }
+
+    .empty-box {
+        text-align: center;
+        padding: 4rem 1rem;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text-muted);
+    }
+</style>
+
+<div class="page-title">
+    <h2>Notes Overview</h2>
+</div>
+
+{% if posts %}
+    <div class="grid">
+        {% for post in posts %}
+            <div class="card">
+                <div>
+                    <h3 class="card-header">{{ post.title }}</h3>
+                    <p class="card-body">{{ post.content }}</p>
+                </div>
+                <div class="card-footer">
+                    <span class="author-tag">Author: {{ post.author.name }}</span>
+                    <div class="actions">
+                        <a href="{% url 'post_update' post.pk %}">Edit</a>
+                        <a href="{% url 'post_delete' post.pk %}" class="delete">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-box">
+        <p>No notes found in database.</p>
+    </div>
+{% endif %}
+{% endblock %}

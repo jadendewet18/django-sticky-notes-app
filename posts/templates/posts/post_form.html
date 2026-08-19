@@ -1,0 +1,17 @@
+{% extends 'posts/base.html' %}
+
+{% block title %}Sticky Note Form{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2>{% if form.instance.pk %}Edit Note{% else %}Create New Note{% endif %}</h2>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <button type="submit" class="btn btn-primary">Save Note</button>
+        <a href="{% url 'post_list' %}" style="margin-left: 1rem; color: #666; text-decoration: none;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

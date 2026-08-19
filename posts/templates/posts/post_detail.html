@@ -1,0 +1,54 @@
+{% extends 'posts/base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<style>
+    .detail-card {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 2rem;
+        max-width: 600px;
+        margin: 2rem auto;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .detail-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .detail-author {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .detail-content {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        white-space: pre-line;
+    }
+
+    .detail-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+</style>
+
+<div class="detail-card">
+    <h2 class="detail-title">{{ post.title }}</h2>
+    <div class="detail-author">Author: {{ post.author.name }}</div>
+    <p class="detail-content">{{ post.content }}</p>
+    
+    <div class="detail-actions">
+        <a href="{% url 'post_update' post.pk %}" class="btn">Edit</a>
+        <a href="{% url 'post_list' %}" class="btn">Back to Board</a>
+    </div>
+</div>
+{% endblock %}
